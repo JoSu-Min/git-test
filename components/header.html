@@ -1,0 +1,37 @@
+<!-- 헤더 컴포넌트 -->
+<div class="header">
+    <button class="back-btn" onclick="goBack()">‹</button>
+    <div class="header-content">
+        <h1 class="app-title">그랜비</h1>
+        <p class="app-subtitle" id="header-subtitle">일반 크기 모드</p>
+    </div>
+</div>
+
+<script>
+function goBack() {
+    // 이전 페이지로 돌아가거나 메인 페이지로 이동
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = 'elder-main.html';
+    }
+}
+
+// 페이지별로 헤더 제목 설정
+function setHeaderTitle(title) {
+    const subtitle = document.getElementById('header-subtitle');
+    if (subtitle) {
+        subtitle.textContent = title;
+    }
+}
+
+// 페이지 로드 시 현재 페이지에 맞는 제목 설정
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname;
+    if (currentPage.includes('elder-large')) {
+        setHeaderTitle('큰 글씨 모드');
+    } else {
+        setHeaderTitle('일반 크기 모드');
+    }
+});
+</script>

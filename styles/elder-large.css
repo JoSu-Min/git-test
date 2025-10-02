@@ -1,0 +1,122 @@
+/* 큰 글씨 모드 전용 스타일 */
+.greeting-card {
+    background: linear-gradient(135deg, #40B59F 0%, #35a08d 100%);
+    border-radius: 30px;
+    padding: 40px;
+    margin-bottom: 25px;
+    color: white;
+    box-shadow: 0 6px 25px rgba(64, 181, 159, 0.3);
+    text-align: center;
+}
+
+.greeting-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    margin: 0 auto 25px;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+.greeting-text {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.greeting-name {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.greeting-date {
+    font-size: 22px;
+    opacity: 0.95;
+    margin-bottom: 25px;
+}
+
+.greeting-weather {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* 초대형 버튼 메뉴 */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.super-big-button {
+    background-color: white;
+    border: 6px solid #40B59F;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.super-big-button:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(64, 181, 159, 0.4);
+    background-color: #f8fffe;
+}
+
+.super-big-button-icon {
+    font-size: 80px;
+    flex-shrink: 0;
+}
+
+.super-big-button-content {
+    flex: 1;
+}
+
+.super-big-button-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #40B59F;
+    margin-bottom: 12px;
+}
+
+.super-big-button-desc {
+    font-size: 20px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+    .greeting-name {
+        font-size: 32px;
+    }
+    
+    .super-big-button-title {
+        font-size: 24px;
+    }
+    
+    .super-big-button {
+        padding: 30px;
+    }
+    
+    .super-big-button-icon {
+        font-size: 60px;
+    }
+}
+

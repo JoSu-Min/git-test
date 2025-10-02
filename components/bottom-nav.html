@@ -1,0 +1,51 @@
+<!-- 하단 메뉴 바 컴포넌트 -->
+<div class="bottom-tools">
+    <a href="elder-main.html" class="big-tool-button" id="nav-small">
+        <div class="big-tool-icon">🔍</div>
+        <div class="big-tool-label">글씨 작게</div>
+    </a>
+    
+    <a href="elder-large.html" class="big-tool-button" id="nav-large">
+        <div class="big-tool-icon">🔍</div>
+        <div class="big-tool-label">글씨 크게</div>
+    </a>
+    
+    <a href="#" class="big-tool-button" onclick="showHelp()">
+        <div class="big-tool-icon">❓</div>
+        <div class="big-tool-label">도움말</div>
+    </a>
+    
+    <a href="#" class="big-tool-button" onclick="showSettings()">
+        <div class="big-tool-icon">⚙️</div>
+        <div class="big-tool-label">설정</div>
+    </a>
+</div>
+
+<script>
+function showHelp() {
+    alert('❓ 도움말입니다!\n\n🆘 응급상황\n• 119번 - 응급실\n• 1339번 - 의료상담\n\n📞 자주 쓰는 번호\n• 병원: 02-1234-5678\n• 약국: 02-2345-6789\n\n💡 사용 방법\n• 버튼을 천천히 눌러주세요\n• 큰 소리로 말씀해주세요\n\n언제든 도와드릴게요!');
+}
+
+function showSettings() {
+    alert('⚙️ 설정입니다!\n\n🔊 소리 크기\n• 크게\n• 보통\n• 작게\n\n🔤 글씨 크기\n• 매우 크게\n• 크게\n• 보통\n\n🌙 화면 밝기\n• 밝게\n• 보통\n• 어둡게\n\n설정을 변경하시겠어요?');
+}
+
+// 현재 페이지에 맞는 네비게이션 활성화
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname;
+    
+    // 모든 네비게이션 버튼에서 active 클래스 제거
+    document.querySelectorAll('.big-tool-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // 현재 페이지에 맞는 버튼 활성화
+    if (currentPage.includes('elder-large')) {
+        const largeBtn = document.getElementById('nav-large');
+        if (largeBtn) largeBtn.classList.add('active');
+    } else {
+        const smallBtn = document.getElementById('nav-small');
+        if (smallBtn) smallBtn.classList.add('active');
+    }
+});
+</script>

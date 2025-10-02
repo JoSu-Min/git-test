@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그랜비 - 큰 글씨</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/elder-large.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 컴포넌트 -->
+        <div id="header-component"></div>
+
+        <!-- 인사말 카드 - 큰 버전 -->
+        <div class="greeting-card">
+            <div class="greeting-avatar">👵</div>
+            <div class="greeting-text">안녕하세요!</div>
+            <div class="greeting-name">김정순님</div>
+            <div class="greeting-date">2025년 10월 1일 수요일</div>
+            <div class="greeting-weather">
+                <span style="font-size: 28px;">🌥️</span>
+                <span>오늘은 흐린 날씨예요</span>
+            </div>
+        </div>
+
+        <!-- 메인 메뉴 (초대형 버튼들) -->
+        <div class="main-menu">
+            <a href="#" class="super-big-button" onclick="showDiary()">
+                <div class="super-big-button-icon">📖</div>
+                <div class="super-big-button-content">
+                    <div class="super-big-button-title">오늘의 일기</div>
+                    <div class="super-big-button-desc">하루 있었던 일을<br>기록해보세요</div>
+                </div>
+            </a>
+
+            <a href="#" class="super-big-button" onclick="showFamily()">
+                <div class="super-big-button-icon">👨‍👩‍👧‍👦</div>
+                <div class="super-big-button-content">
+                    <div class="super-big-button-title">가족과 대화</div>
+                    <div class="super-big-button-desc">가족들과 전화하거나<br>메시지를 보내세요</div>
+                </div>
+            </a>
+
+            <a href="#" class="super-big-button" onclick="showHealth()">
+                <div class="super-big-button-icon">💊</div>
+                <div class="super-big-button-content">
+                    <div class="super-big-button-title">건강 관리</div>
+                    <div class="super-big-button-desc">약 시간 알림과<br>건강 상태 확인</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- 하단 메뉴 바 컴포넌트 -->
+        <div id="bottom-nav-component"></div>
+    </div>
+
+    <script>
+        // 컴포넌트 로드 함수
+        async function loadComponent(elementId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                const html = await response.text();
+                document.getElementById(elementId).innerHTML = html;
+            } catch (error) {
+                console.error('컴포넌트 로드 실패:', error);
+            }
+        }
+
+        // 페이지 로드 시 컴포넌트들 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('header-component', 'components/header.html');
+            loadComponent('bottom-nav-component', 'components/bottom-nav.html');
+        });
+
+        function showDiary() {
+            alert('📖 일기장입니다!\n\n오늘 하루는 어떠셨나요?\n\n• 좋았던 일\n• 만난 사람들\n• 드신 음식\n\n천천히 말씀해주세요!');
+        }
+
+        function showFamily() {
+            alert('👨‍👩‍👧‍👦 가족과 연결합니다!\n\n📞 전화걸기\n• 아들 민수님\n• 딸 수민님\n• 손녀 지민이\n\n💬 메시지 확인\n• 새 메시지 3개\n\n누구와 대화하시겠어요?');
+        }
+
+        function showHealth() {
+            alert('💊 건강 관리입니다!\n\n⏰ 오늘 드실 약\n• 아침 약: 완료 ✅\n• 점심 약: 오후 1시\n• 저녁 약: 오후 7시\n\n📊 건강 상태\n• 혈압: 정상\n• 걸음수: 2,340걸음\n\n모두 잘 하고 계세요!');
+        }
+    </script>
+</body>
+</html>
+

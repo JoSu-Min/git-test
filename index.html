@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그랜비 - 시니어 케어 앱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #40B59F 0%, #35a08d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .welcome-container {
+            background-color: white;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .app-logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .app-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #40B59F;
+            margin-bottom: 15px;
+        }
+        
+        .app-description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .mode-button {
+            background-color: #f8f9fa;
+            border: 3px solid #40B59F;
+            border-radius: 20px;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .mode-button:hover {
+            background-color: #40B59F;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(64, 181, 159, 0.3);
+        }
+        
+        .mode-icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+        
+        .mode-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .mode-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .mode-desc {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-container {
+                padding: 30px 20px;
+            }
+            
+            .app-title {
+                font-size: 28px;
+            }
+            
+            .app-description {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="app-logo">👵</div>
+        <h1 class="app-title">그랜비</h1>
+        <p class="app-description">
+            시니어를 위한<br>
+            친근하고 쉬운 케어 앱
+        </p>
+        
+        <div class="mode-selection">
+            <a href="elder-main.html" class="mode-button">
+                <div class="mode-icon">📱</div>
+                <div class="mode-info">
+                    <div class="mode-title">일반 크기</div>
+                    <div class="mode-desc">표준 크기로 편리하게</div>
+                </div>
+            </a>
+            
+            <a href="elder-large.html" class="mode-button">
+                <div class="mode-icon">🔍</div>
+                <div class="mode-info">
+                    <div class="mode-title">큰 글씨</div>
+                    <div class="mode-desc">눈에 편한 큰 글씨로</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

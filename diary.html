@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그랜비 - 어르신 메인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding: 20px 20px 30px;
+        }
+        
+        /* 헤더 */
+        .header {
+            text-align: center;
+            padding: 15px 0 25px;
+        }
+        
+        .app-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* 프로필 카드 */
+        .profile-card {
+            background: linear-gradient(135deg, #40B59F 0%, #35a08d 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(64, 181, 159, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .profile-card.expanded {
+            padding: 30px 25px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-right: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-greeting {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .profile-name {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .profile-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        
+        .status-badge {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .profile-notice {
+            margin-top: 12px;
+            font-size: 15px;
+            opacity: 0.95;
+        }
+        
+        .weather-info {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        
+        /* 확장된 카드 내용 */
+        .expanded-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .profile-card.expanded .expanded-content {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 20px;
+        }
+        
+        .detail-section {
+            margin-bottom: 18px;
+            padding: 18px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+        
+        .detail-value {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .diary-preview {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .family-message {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .message-author {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .message-text {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .emotion-week {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 24px;
+        }
+        
+        .emotion-today {
+            font-size: 15px;
+            opacity: 0.95;
+            margin-top: 8px;
+        }
+        
+        /* 안내 텍스트 */
+        .guide-text {
+            text-align: center;
+            padding: 15px 0;
+            color: #666;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .guide-icon {
+            font-size: 20px;
+        }
+        
+        /* 메뉴 그리드 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .menu-button {
+            background-color: white;
+            border: 2px solid #40B59F;
+            border-radius: 15px;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .menu-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(64, 181, 159, 0.2);
+            background-color: #f8fffe;
+        }
+        
+        .menu-icon {
+            font-size: 48px;
+        }
+        
+        .menu-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1 class="app-title">그랜비</h1>
+        </div>
+
+        <!-- 프로필 카드 (클릭하여 확장 가능) -->
+        <div class="profile-card" id="profileCard">
+            <div class="profile-header">
+                <div class="profile-avatar">👵</div>
+                <div class="profile-info">
+                    <div class="profile-greeting">안녕하세요!</div>
+                    <div class="profile-name">김정순님</div>
+                </div>
+            </div>
+            
+            <div class="profile-status">
+                <span class="status-badge">10월 1일 수요일</span>
+                <span>오늘</span>
+            </div>
+            
+            <div class="profile-notice">
+                오늘 4시에 정형외과 진료가 잡혀있어요!
+            </div>
+            
+            <div class="weather-info">
+                <span style="font-size: 24px;">🌥️</span>
+                <span>오늘은 비소식이 있어 하늘 때 우산을 챙기시는게 좋겠네요.</span>
+            </div>
+            
+            <!-- 확장 가능한 추가 정보 -->
+            <div class="expanded-content">
+                <!-- AI 전화 정보 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>📞</span>
+                        <span>오늘의 AI 전화</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">통화 상태</span>
+                        <span class="detail-value">✅ 완료</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">통화 시간</span>
+                        <span class="detail-value">오전 10:30 (12분)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">다음 통화</span>
+                        <span class="detail-value">내일 오전 10시</span>
+                    </div>
+                </div>
+                
+                <!-- 오늘의 할 일 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>✅</span>
+                        <span>오늘의 할 일</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📅 아침 약 드시기</span>
+                        <span class="detail-value">✅ 완료</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🏥 병원 방문 (오후 2시)</span>
+                        <span class="detail-value">⏰ 곧 시작</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💊 저녁 약 드시기</span>
+                        <span class="detail-value">⏳ 대기중</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🍎 과일 사러 가기</span>
+                        <span class="detail-value">➕ 새로 추가</span>
+                    </div>
+                </div>
+                
+                <!-- 가족 소식 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>❤️</span>
+                        <span>가족 소식</span>
+                    </div>
+                    <div class="family-message">
+                        <div class="message-author">📨 아들 민수</div>
+                        <div class="message-text">"주말에 뵈러 갈게요! 건강하세요 😊"</div>
+                    </div>
+                    <div class="family-message">
+                        <div class="message-author">📨 손녀 지민</div>
+                        <div class="message-text">"할머니 보고싶어요 ❤️ 학교에서 상 받았어요!"</div>
+                    </div>
+                </div>
+                
+                <!-- 오늘의 일기 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>📝</span>
+                        <span>오늘의 일기 한 줄</span>
+                    </div>
+                    <div class="diary-preview">
+                        "오늘은 날씨가 좋아서 공원 산책했어요. 단풍이 물들기 시작했네요 🍂"
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">👁️ 가족이 읽음</span>
+                        <span class="detail-value">3명</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💬 새 댓글</span>
+                        <span class="detail-value">딸 수민: "건강하셔서 다행이에요!"</span>
+                    </div>
+                </div>
+                
+                <!-- 건강 체크 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>💊</span>
+                        <span>건강 체크</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">혈압</span>
+                        <span class="detail-value">120/80 mmHg ✅</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">걸음수</span>
+                        <span class="detail-value">3,245 걸음 🎯</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">수면</span>
+                        <span class="detail-value">7시간 30분 😴</span>
+                    </div>
+                </div>
+                
+                <!-- 감정 상태 -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <span>💭</span>
+                        <span>이번 주 감정 상태</span>
+                    </div>
+                    <div class="emotion-week">
+                        <span>😊</span><span>😊</span><span>😊</span><span>😐</span><span>😊</span><span>😊</span><span>😊</span>
+                    </div>
+                    <div class="emotion-today">
+                        오늘: 긍정적이고 안정적인 하루예요!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 안내 텍스트 -->
+        <div class="guide-text">
+            <span class="guide-icon">👆</span>
+            <span>원하시는 메뉴를 선택해주세요.</span>
+        </div>
+
+        <!-- 메뉴 그리드 -->
+        <div class="menu-grid">
+            <a href="#" class="menu-button">
+                <div class="menu-icon">📓</div>
+                <div class="menu-label">일기</div>
+            </a>
+            
+            <a href="#" class="menu-button">
+                <div class="menu-icon">📅</div>
+                <div class="menu-label">달력</div>
+            </a>
+            
+            <a href="#" class="menu-button">
+                <div class="menu-icon">🔍</div>
+                <div class="menu-label">크게 보기</div>
+            </a>
+            
+            <a href="#" class="menu-button">
+                <div class="menu-icon">⚙️</div>
+                <div class="menu-label">설정</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 프로필 카드 클릭하여 확장/축소
+        const profileCard = document.getElementById('profileCard');
+        
+        profileCard.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+        });
+
+        // 메뉴 버튼 클릭 이벤트
+        document.querySelectorAll('.menu-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const label = this.querySelector('.menu-label').textContent;
+                alert(`${label} 기능은 개발 중입니다!`);
+            });
+        });
+    </script>
+</body>
+</html>
