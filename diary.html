@@ -277,10 +277,203 @@
             color: #333;
         }
         
+        /* 일기 모달 스타일 */
+        .diary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .diary-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .diary-date {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .diary-textarea {
+            width: 100%;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .diary-textarea:focus {
+            outline: none;
+            border-color: #40B59F;
+        }
+
+        .emotion-selector {
+            margin-bottom: 20px;
+        }
+
+        .emotion-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .emotion-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .emotion-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emotion-btn:hover {
+            transform: scale(1.1);
+            border-color: #40B59F;
+        }
+
+        .emotion-btn.selected {
+            background-color: #40B59F;
+            border-color: #40B59F;
+            transform: scale(1.1);
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #40B59F 0%, #35a08d 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(64, 181, 159, 0.3);
+        }
+
+        .save-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* 반응형 */
         @media (max-width: 480px) {
             .container {
                 max-width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .modal-body {
+                padding: 20px;
             }
         }
     </style>
@@ -441,7 +634,7 @@
 
         <!-- 메뉴 그리드 -->
         <div class="menu-grid">
-            <a href="#" class="menu-button">
+            <a href="#" class="menu-button" id="diaryButton">
                 <div class="menu-icon">📓</div>
                 <div class="menu-label">일기</div>
             </a>
@@ -461,6 +654,40 @@
                 <div class="menu-label">설정</div>
             </a>
         </div>
+
+        <!-- 일기 작성 모달 -->
+        <div class="diary-modal" id="diaryModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>오늘의 일기</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="diary-date">
+                        <span id="currentDate"></span>
+                    </div>
+                    <textarea 
+                        class="diary-textarea" 
+                        id="diaryText" 
+                        placeholder="오늘 하루는 어떠셨나요? 자유롭게 적어보세요..."
+                        rows="8"
+                    ></textarea>
+                    <div class="emotion-selector">
+                        <span class="emotion-label">오늘의 기분:</span>
+                        <div class="emotion-buttons">
+                            <button class="emotion-btn" data-emotion="😊">😊</button>
+                            <button class="emotion-btn" data-emotion="😐">😐</button>
+                            <button class="emotion-btn" data-emotion="😔">😔</button>
+                            <button class="emotion-btn" data-emotion="😴">😴</button>
+                            <button class="emotion-btn" data-emotion="🤗">🤗</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="save-btn" id="saveDiary">저장하기</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -471,8 +698,88 @@
             this.classList.toggle('expanded');
         });
 
-        // 메뉴 버튼 클릭 이벤트
-        document.querySelectorAll('.menu-button').forEach(button => {
+        // 일기 모달 관련 요소들
+        const diaryModal = document.getElementById('diaryModal');
+        const diaryButton = document.getElementById('diaryButton');
+        const closeModal = document.getElementById('closeModal');
+        const diaryText = document.getElementById('diaryText');
+        const currentDate = document.getElementById('currentDate');
+        const saveDiary = document.getElementById('saveDiary');
+        const emotionButtons = document.querySelectorAll('.emotion-btn');
+
+        // 현재 날짜 설정
+        function setCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const date = today.getDate();
+            const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+            const dayName = dayNames[today.getDay()];
+            
+            currentDate.textContent = `${year}년 ${month}월 ${date}일 ${dayName}`;
+        }
+
+        // 일기 버튼 클릭 시 모달 열기
+        diaryButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            setCurrentDate();
+            diaryModal.classList.add('show');
+            diaryText.focus();
+        });
+
+        // 모달 닫기
+        function closeDiaryModal() {
+            diaryModal.classList.remove('show');
+            diaryText.value = '';
+            emotionButtons.forEach(btn => btn.classList.remove('selected'));
+        }
+
+        closeModal.addEventListener('click', closeDiaryModal);
+
+        // 모달 배경 클릭 시 닫기
+        diaryModal.addEventListener('click', function(e) {
+            if (e.target === diaryModal) {
+                closeDiaryModal();
+            }
+        });
+
+        // 감정 버튼 선택
+        emotionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                emotionButtons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // 일기 저장
+        saveDiary.addEventListener('click', function() {
+            const text = diaryText.value.trim();
+            const selectedEmotion = document.querySelector('.emotion-btn.selected');
+            
+            if (!text) {
+                alert('일기 내용을 입력해주세요!');
+                return;
+            }
+            
+            if (!selectedEmotion) {
+                alert('오늘의 기분을 선택해주세요!');
+                return;
+            }
+            
+            // 저장 성공 시뮬레이션
+            saveDiary.textContent = '저장 중...';
+            saveDiary.disabled = true;
+            
+            setTimeout(() => {
+                alert('일기가 성공적으로 저장되었습니다! 📝');
+                closeDiaryModal();
+                saveDiary.textContent = '저장하기';
+                saveDiary.disabled = false;
+            }, 1000);
+        });
+
+        // 메뉴 버튼 클릭 이벤트 (일기 버튼 제외)
+        document.querySelectorAll('.menu-button:not(#diaryButton)').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const label = this.querySelector('.menu-label').textContent;
